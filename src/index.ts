@@ -1,6 +1,6 @@
 import express from 'express';
 import cors from 'cors';
-import mongoose, { CallbackError, Query } from 'mongoose';
+import mongoose, { CallbackError } from 'mongoose';
 
 import Todo, { TodoDoc } from "./models/todo";
 

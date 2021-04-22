@@ -1,7 +1,8 @@
 import mongoose, { Schema, Document } from "mongoose";
+import { UserDoc } from "./user.model";
 
 interface RefreshTokenDoc extends Document {
-  user: Schema.Types.ObjectId;
+  user: Schema.Types.ObjectId | UserDoc;
   token: string;
   expires: Date;
   created: Date;
@@ -49,4 +50,4 @@ const refreshTokenModel = mongoose.model<RefreshTokenDoc>(
   schema
 );
 
-export { refreshTokenModel as default, RefreshTokenDoc};
+export { refreshTokenModel as default, RefreshTokenDoc };
