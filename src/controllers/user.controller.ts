@@ -7,12 +7,27 @@ const router = express.Router();
 
 type MiddlewareFn = (req: Request, res: Response, next: NextFunction) => void;
 
-const checkAuthenticationSchema = <MiddlewareFn>function (req, res, next) {
+const validateRequest = (req: Request, next: NextFunction, schema: Joi.ObjectSchema) => {
+  const options = {
+      abortEarly: false, // include all errors
+      allowUnknown: true, // ignore unknown props
+      stripUnknown: true // remove unknown props
+  };
+  const { error, value } = schema.validate(req.body, options);
+  if (error) {
+      next(`Validation error: ${error.details.map(x => x.message).join(', ')}`);
+  } else {
+      req.body = value;
+      next();
+  }
+}
+
+const checkAuthenticationSchema = <MiddlewareFn>function (req, _res, next) {
   const schema = Joi.object({
     username: Joi.string().required(),
     password: Joi.string().required(),
   });
-  // validateRequest(req, next, schema);
+  validateRequest(req, next, schema);
 };
 
 const authenticate = <MiddlewareFn>function (req, res, next) {
@@ -21,6 +36,7 @@ const authenticate = <MiddlewareFn>function (req, res, next) {
   userService
     .authenticate({ username, password, ipAddress })
     .then(({ refreshToken, ...user }) => {
+      console.log("asdk");
       setTokenCookie(res, refreshToken);
       res.json(user);
     })
@@ -36,4 +52,9 @@ const setTokenCookie = (res: Response, token: string) => {
 };
 
 
-router.post("/authenticate", authenticate);
+router.post("/authenticate", checkAuthenticationSchema, authenticate);
+router.get('/', function (_req, res) {
+  res.send('GET request to the homepage')
+})
+
+export default router;

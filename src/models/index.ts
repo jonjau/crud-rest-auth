@@ -14,6 +14,10 @@ mongoose.connect(
   connectionOptions
 );
 mongoose.Promise = global.Promise;
+const connection = mongoose.connection;
+connection.once('open', () => {
+  console.log('MongoDB database connection established successfully');
+});
 
 const isValidId = (id: string | number | mongoose.Types.ObjectId) => {
   return mongoose.Types.ObjectId.isValid(id);
