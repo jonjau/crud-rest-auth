@@ -1,24 +1,27 @@
-import express from 'express';
-import cors from 'cors';
+import express from "express";
+import cors from "cors";
 import router from "./controllers/user.controller";
-import errorHandler from './middleware/error-handler';
+import errorHandler from "./middleware/error-handler";
+import createTestUser from "./util/create-test-user";
 
 // import Todo, { TodoDoc } from "./models/todo";
 
 const app = express();
-// const router = express.Router();
-const PORT = 4000;
 
+createTestUser();
+
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 app.use(cors());
 
-// base prefix for Todo API
 app.use("/auth", router);
 
 app.use(errorHandler);
 
-// router.get("/", function(req, res) {
-//   res.send("Asdjkasd");
-// })
+const PORT = 4000;
+app.listen(PORT, () => {
+  console.log(`RUNNING ON PORT: ${PORT}`);
+});
 
 // // GET / gets all the Todos
 // router.route('/').get((err, res) => {
@@ -84,7 +87,3 @@ app.use(errorHandler);
 //       res.status(400).send('could not add new Todo');
 //     });
 // });
-
-app.listen(PORT, () => {
-  console.log(`RUNNING ON PORT: ${PORT}`);
-});
