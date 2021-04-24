@@ -1,0 +1,25 @@
+version: "3.9"
+
+services:
+
+  crud_rest_auth_server:
+    container_name: crud_rest_auth_server
+    build: .
+    ports:
+      - "2525:2525"
+      - "5858:5858"
+    links:
+      - crud_rest_auth_db
+    environment:
+      - dev=1
+      - db_service_name=my_service_db
+      - db_name=example_db
+      - db_retry_time=3000
+
+  crud_rest_auth_db:
+    container_name: crud_rest_auth_db
+    image: mongo
+    volumes:
+      - ./db:/data/db
+    ports:
+      - "27017:27017"
