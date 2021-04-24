@@ -1,0 +1,4 @@
+{
+  "connectionString": "mongodb://localhost/crud-rest-auth",
+  "secret": "mysecretusedtosigntokens"
+}
