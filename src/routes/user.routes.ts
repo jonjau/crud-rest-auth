@@ -23,8 +23,8 @@ router.post(
   checkRevokeTokenSchema,
   revokeToken
 );
-router.get("user/", authJwt, authorize([Role.Admin]), getAll);
-router.get("user/:id", authJwt, authorize(), getById);
-router.get("user/:id/refresh-tokens", authJwt, authorize(), getRefreshTokens);
+router.get("/user/", authJwt, authorize([Role.Admin]), getAll);
+router.get("/user/:id", authJwt, authorize(), getById);
+router.get("/user/:id/refresh-tokens", authJwt, authorize(), getRefreshTokens);
 
 export default router;
