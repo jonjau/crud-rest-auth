@@ -1,13 +1,10 @@
-import express, { NextFunction, Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import Joi from "@hapi/joi";
 
 import * as userService from "../services/user.service";
 import Role from "../models/role";
 import { UserDoc } from "../models/user.model";
 import RefreshToken from "../models/refresh-token.model";
-import { authJwt, authorize } from "../middleware/authorize";
-
-const router = express.Router();
 
 type MiddlewareFn<ReqT = Request> = (
   req: ReqT,
@@ -70,7 +67,7 @@ const refreshToken = <MiddlewareFn>function (req, res, next) {
     .catch(next);
 };
 
-const revokeTokenSchema = <MiddlewareFn>function (req, _res, next) {
+const checkRevokeTokenSchema = <MiddlewareFn>function (req, _res, next) {
   const schema = Joi.object({
     token: Joi.string().empty(""),
   });
@@ -150,30 +147,13 @@ const setTokenCookie = (res: Response, token: string) => {
   res.cookie("refreshToken", token, cookieOptions);
 };
 
-
-
-router.post("/authenticate", checkAuthenticationSchema, authenticate);
-router.post("/refresh-token", refreshToken);
-router.post(
-  "/revoke-token",
-  authJwt,
-  authorize(),
-  revokeTokenSchema,
-  revokeToken
-);
-router.get("/", authJwt, authorize([Role.Admin]), getAll);
-router.get("/:id", authJwt, authorize(), getById);
-router.get("/:id/refresh-tokens", authJwt, authorize(), getRefreshTokens);
-
-// const mid = <MiddlewareFn>function (req, _res, next) {
-//   console.log(req.body);
-//   next()
-// };
-
-// const end = <MiddlewareFn>function (req, res, _next) {
-//   console.log(req.body);
-//   res.send(req.body);
-// }
-// router.post("/k", mid, end);
-
-export default router;
+export {
+  checkAuthenticationSchema,
+  authenticate,
+  refreshToken,
+  checkRevokeTokenSchema,
+  revokeToken,
+  getAll,
+  getById,
+  getRefreshTokens
+};
