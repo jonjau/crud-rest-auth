@@ -1,0 +1,408 @@
+{
+	"info": {
+		"_postman_id": "59cc0570-d2ff-4934-808b-840924904f1d",
+		"name": "crud-rest-auth",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Login, as user (Public)",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\": \"user\",\r\n    \"password\": \"user\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:2525/authenticate",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "2525",
+					"path": [
+						"authenticate"
+					]
+				},
+				"description": "Expects a username and password in the body. If successful will return a JWT token. Include this as a authorization bearer token to send requests as a User."
+			},
+			"response": []
+		},
+		{
+			"name": "Login, as admin (Public)",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\": \"admin\",\r\n    \"password\": \"admin\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:2525/authenticate",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "2525",
+					"path": [
+						"authenticate"
+					]
+				},
+				"description": "Expects a username and password in the body. If successful will return a JWT token. Include this as a authorization bearer token to send requests as an Admin."
+			},
+			"response": []
+		},
+		{
+			"name": "Refresh token (Public)",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2MDg1MGZlYWNjNWU3MzAwMjA5ZWQzMWIiLCJpZCI6IjYwODUwZmVhY2M1ZTczMDAyMDllZDMxYiIsImlhdCI6MTYxOTMzNjgyNiwiZXhwIjoxNjE5MzM3NzI2fQ.SrTcqliWvXEz2X74WT1AODaqtYrvznCFJ68UP2M5L3s",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"token\": \"dcb40498f415c52e43083576b5691901b7d0ea0a5830fc152af8d175552b8ab0da7e7acda0370d4e\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:2525/refresh-token",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "2525",
+					"path": [
+						"refresh-token"
+					]
+				},
+				"description": "Refreshes a refresh token passed in the cookie"
+			},
+			"response": []
+		},
+		{
+			"name": "Revoke token (User)",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2MDg1MGZlYWNjNWU3MzAwMjA5ZWQzMWIiLCJpZCI6IjYwODUwZmVhY2M1ZTczMDAyMDllZDMxYiIsImlhdCI6MTYxOTMzNjgyNiwiZXhwIjoxNjE5MzM3NzI2fQ.SrTcqliWvXEz2X74WT1AODaqtYrvznCFJ68UP2M5L3s",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"token\": \"dcb40498f415c52e43083576b5691901b7d0ea0a5830fc152af8d175552b8ab0da7e7acda0370d4e\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:2525/revoke-token",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "2525",
+					"path": [
+						"revoke-token"
+					]
+				},
+				"description": "Revoke a person's token, the token revoked must belong to the user requesting this revoke, but if they are an Admin, they can revoke anyone's token"
+			},
+			"response": []
+		},
+		{
+			"name": "Get all users (Admin)",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2MDg1MGZlYWNjNWU3MzAwMjA5ZWQzMWIiLCJpZCI6IjYwODUwZmVhY2M1ZTczMDAyMDllZDMxYiIsImlhdCI6MTYxOTMzNjgyNiwiZXhwIjoxNjE5MzM3NzI2fQ.SrTcqliWvXEz2X74WT1AODaqtYrvznCFJ68UP2M5L3s",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:2525/user/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "2525",
+					"path": [
+						"user",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get a user (Only this user)",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2MDg1MGZlYWNjNWU3MzAwMjA5ZWQzMWIiLCJpZCI6IjYwODUwZmVhY2M1ZTczMDAyMDllZDMxYiIsImlhdCI6MTYxOTMzNjgyNiwiZXhwIjoxNjE5MzM3NzI2fQ.SrTcqliWvXEz2X74WT1AODaqtYrvznCFJ68UP2M5L3s",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:2525/user/608398e127210e4b841e49e0",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "2525",
+					"path": [
+						"user",
+						"608398e127210e4b841e49e0"
+					]
+				},
+				"description": " (must have same user JWT token)"
+			},
+			"response": []
+		},
+		{
+			"name": "Get a user's refresh tokens (Only this user)",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2MDg1MGZlYWNjNWU3MzAwMjA5ZWQzMWIiLCJpZCI6IjYwODUwZmVhY2M1ZTczMDAyMDllZDMxYiIsImlhdCI6MTYxOTMzNjgyNiwiZXhwIjoxNjE5MzM3NzI2fQ.SrTcqliWvXEz2X74WT1AODaqtYrvznCFJ68UP2M5L3s",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:2525/user/608398e127210e4b841e49e0/refresh-tokens",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "2525",
+					"path": [
+						"user",
+						"608398e127210e4b841e49e0",
+						"refresh-tokens"
+					]
+				},
+				"description": " (must have same user JWT token)"
+			},
+			"response": []
+		},
+		{
+			"name": "Get all todos (User)",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2MDg1MGZlYWNjNWU3MzAwMjA5ZWQzMWIiLCJpZCI6IjYwODUwZmVhY2M1ZTczMDAyMDllZDMxYiIsImlhdCI6MTYxOTMzNjgyNiwiZXhwIjoxNjE5MzM3NzI2fQ.SrTcqliWvXEz2X74WT1AODaqtYrvznCFJ68UP2M5L3s",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:2525/todos/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "2525",
+					"path": [
+						"todos",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get a todo (User)",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2MDg1MGZlYWNjNWU3MzAwMjA5ZWQzMWIiLCJpZCI6IjYwODUwZmVhY2M1ZTczMDAyMDllZDMxYiIsImlhdCI6MTYxOTMzNjgyNiwiZXhwIjoxNjE5MzM3NzI2fQ.SrTcqliWvXEz2X74WT1AODaqtYrvznCFJ68UP2M5L3s",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:2525/todos/6083a91cdca57c160003a986",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "2525",
+					"path": [
+						"todos",
+						"6083a91cdca57c160003a986"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update a todo (Admin)",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2MDg1MGZlYWNjNWU3MzAwMjA5ZWQzMWIiLCJpZCI6IjYwODUwZmVhY2M1ZTczMDAyMDllZDMxYiIsImlhdCI6MTYxOTMzNjgyNiwiZXhwIjoxNjE5MzM3NzI2fQ.SrTcqliWvXEz2X74WT1AODaqtYrvznCFJ68UP2M5L3s",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"description\": \"new description\",\r\n    \"responsible\": \"someone else\",\r\n    \"priority\": \"low\",\r\n    \"completed\": false\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:2525/todos/update/6083a91cdca57c160003a986",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "2525",
+					"path": [
+						"todos",
+						"update",
+						"6083a91cdca57c160003a986"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete a todo (Admin)",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2MDg1MGZlYWNjNWU3MzAwMjA5ZWQzMWIiLCJpZCI6IjYwODUwZmVhY2M1ZTczMDAyMDllZDMxYiIsImlhdCI6MTYxOTMzNjgyNiwiZXhwIjoxNjE5MzM3NzI2fQ.SrTcqliWvXEz2X74WT1AODaqtYrvznCFJ68UP2M5L3s",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:2525/todos/delete/6083a91cdca57c160003a986",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "2525",
+					"path": [
+						"todos",
+						"delete",
+						"6083a91cdca57c160003a986"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add a todo (Admin)",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2MDg1MGZlYWNjNWU3MzAwMjA5ZWQzMWIiLCJpZCI6IjYwODUwZmVhY2M1ZTczMDAyMDllZDMxYiIsImlhdCI6MTYxOTMzNjgyNiwiZXhwIjoxNjE5MzM3NzI2fQ.SrTcqliWvXEz2X74WT1AODaqtYrvznCFJ68UP2M5L3s",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"description\": \"Lorem Ipsum\",\r\n    \"responsible\": \"me\",\r\n    \"priority\": \"low\",\r\n    \"completed\": false\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:2525/todos/add",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "2525",
+					"path": [
+						"todos",
+						"add"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
