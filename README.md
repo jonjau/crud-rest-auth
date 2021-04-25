@@ -55,7 +55,7 @@ The API will be accessible at <http://localhost:2525>.
   is a connection to a database called `crud-rest-auth`.
 - Ensure Node (and NPM or Yarn) is installed.
 
-At the root
+At the root, after `npm install`,
 
 ```bash
 npm start
