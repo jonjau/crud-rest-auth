@@ -1,5 +1,8 @@
 import { NextFunction, Request, Response } from "express";
 
+/**
+ * Global error handler to print out error messages to the client
+ */
 const errorHandler = (
   err: any,
   _req: Request,

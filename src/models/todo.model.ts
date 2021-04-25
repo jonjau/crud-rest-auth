@@ -1,6 +1,5 @@
 import mongoose from "mongoose";
 
-// consider typegoose to avoid this repetition
 export interface TodoDoc extends mongoose.Document {
   description: string,
   responsible: string,

@@ -13,6 +13,8 @@ import Role from "../models/role";
 
 const router = express.Router();
 
+// "Get" operations can be accessed by Users and Admins
+// but updating, inserting and deleting can only be accessed by Admins
 router.get("/", authJwt, authorize(), getAllTodos);
 router.get("/:id", authJwt, authorize(), getTodoById);
 router.post("/update/:id", authJwt, authorize([Role.Admin]), updateTodoById);
