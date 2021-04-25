@@ -2,24 +2,35 @@ import { Request, Response } from "express";
 import { CallbackError } from "mongoose";
 import Todo, { TodoDoc } from "../models/todo.model";
 
-type ExpressFn = (req: Request, res: Response) => void;
+/**
+ * This function takes a Request and sends back a Response,
+ * this is not middleware
+ */
+type ResponseFn = (req: Request, res: Response) => void;
 
-const getAllTodos = <ExpressFn>function (_req, res) {
+/**
+ * return all the Todos, sending back a 404 if there is an error
+ */
+const getAllTodos = <ResponseFn>function (_req, res) {
   Todo.find((err, todos) => {
     if (err) {
-      console.log(err);
+      res.status(404).send("Data not found");
     } else {
-      // send (all) Todos as JSON.
       res.json(todos);
     }
   });
 };
 
-const getTodoById = <ExpressFn>function (req, res) {
+
+/**
+ * return the Todo with an ID matching that which is given in the request URL
+ * params, if it is not found it sends back a 404
+ */
+const getTodoById = <ResponseFn>function (req, res) {
   const id = req.params.id;
   Todo.findById(id, (err: CallbackError, todo: TodoDoc) => {
     if (err) {
-      console.log(err);
+      res.status(404).send("Data not found");
     } else {
       // send the Todo as JSON.
       res.json(todo);
@@ -27,7 +38,14 @@ const getTodoById = <ExpressFn>function (req, res) {
   });
 };
 
-const updateTodoById = <ExpressFn>function (req, res) {
+
+/**
+ * Finds the Todo with an ID matching that which is given in the request URL
+ * params, if it is not found it sends back a 404. Otherwise, it modifies it
+ * based on what was passed in the request body and saves it, sending back a
+ * 400 is it fails then.
+ */
+const updateTodoById = <ResponseFn>function (req, res) {
   const id = req.params.id;
   Todo.findById(id, (_err: CallbackError, todo: TodoDoc) => {
     if (!todo) {
@@ -42,7 +60,7 @@ const updateTodoById = <ExpressFn>function (req, res) {
       todo
         .save()
         .then((_todo) => {
-          res.json("Todo updated!");
+          res.send("Todo updated!");
         })
         .catch((_err) => {
           res.status(400).send("Update not possible");
@@ -51,26 +69,33 @@ const updateTodoById = <ExpressFn>function (req, res) {
   });
 };
 
-const addTodo = <ExpressFn>function (req, res) {
+/**
+ * Adds a new Todo, based on the request body, sending back 400 if error
+ */
+const addTodo = <ResponseFn>function (req, res) {
   const todo = new Todo(req.body);
   todo
     .save()
     .then((_todo) => {
-      res.status(200).json({ todo: "Todo added successfully" });
+      res.status(200).send("Todo added successfully");
     })
     .catch((_err) => {
       res.status(400).send("could not add new Todo");
     });
 };
 
-const deleteTodoById = <ExpressFn>function (req, res) {
+/**
+ * Deletes a Todo with the ID that was given in the request URL params,
+ * sending back a message indicating if it was a successful or not.
+ */
+const deleteTodoById = <ResponseFn>function (req, res) {
   const todoId = req.params.id;
   Todo.findByIdAndDelete(todoId, null, (err, _doc) => {
     if (err) {
-      console.log(err);
+      res.send(err);
     } else {
       // send the Todo as JSON.
-      res.json(`Todo with ID ${todoId} successfully deleted.`);
+      res.send(`Todo with ID ${todoId} successfully deleted.`);
     };
   })
 }

@@ -13,6 +13,10 @@ interface AuthReqBody {
   ipAddress: string;
 }
 
+/**
+ * Check if the authentication request is valid and return their details if
+ * successful, which would include the role.
+ */
 const authenticate = async ({ username, password, ipAddress }: AuthReqBody) => {
   const user = await User.findOne({ username });
 
@@ -39,6 +43,11 @@ interface TokenReqBody {
   ipAddress: string;
 }
 
+/**
+ * 
+ * @param param0 
+ * @returns 
+ */
 const refreshToken = async ({ token, ipAddress }: TokenReqBody) => {
   const refreshToken = await getRefreshToken(token);
   const user = refreshToken.user as UserDoc;
@@ -62,6 +71,9 @@ const refreshToken = async ({ token, ipAddress }: TokenReqBody) => {
   };
 };
 
+/**
+ * 
+ */
 const revokeToken = async ({ token, ipAddress }: TokenReqBody) => {
   const refreshToken = await getRefreshToken(token);
 
@@ -71,6 +83,9 @@ const revokeToken = async ({ token, ipAddress }: TokenReqBody) => {
   await refreshToken.save();
 };
 
+/**
+ * Get all Users' details
+ */
 const getAll = async () => {
   const users = await User.find();
   return users.map((x) => basicDetails(x));
@@ -78,11 +93,17 @@ const getAll = async () => {
 
 type Id = string | number | mongoose.Types.ObjectId;
 
+/**
+ * Get a User's details by their ID
+ */
 const getById = async (id: Id) => {
   const user = await getUser(id);
   return basicDetails(user);
 };
 
+/**
+ * Get all the users' refresh tokens
+ */
 const getRefreshTokens = async (userId: any) => {
   // check that user exists
   await getUser(userId);
@@ -92,6 +113,9 @@ const getRefreshTokens = async (userId: any) => {
   return refreshTokens;
 };
 
+/**
+ * Get a User's details by their ID
+ */
 const getUser = async (id: Id) => {
   if (!isValidId(id)) throw "User not found";
   const user = await User.findById(id);
@@ -99,6 +123,9 @@ const getUser = async (id: Id) => {
   return user;
 };
 
+/**
+ * Get the refresh token given 
+ */
 const getRefreshToken = async (token: string) => {
   const refreshToken = await RefreshToken.findOne({ token }).populate("user");
   if (!refreshToken || !refreshToken.isActive) throw "Invalid token";
@@ -112,6 +139,9 @@ const generateJwtToken = async (user: UserDoc) => {
   });
 };
 
+/**
+ * Generate a refresh token based on the given User and returns it
+ */
 const generateRefreshToken = async (user: UserDoc, ipAddress: string) => {
   // create a refresh token that expires in 7 days
   return new RefreshToken({
@@ -122,10 +152,16 @@ const generateRefreshToken = async (user: UserDoc, ipAddress: string) => {
   });
 };
 
+/**
+ * Random string...
+ */
 const randomTokenString = () => {
   return crypto.randomBytes(40).toString("hex");
 };
 
+/**
+ * Get the basicDetails of a User
+ */
 const basicDetails = (user: UserDoc) => {
   const { id, username, role } = user;
   return { id, username, role };

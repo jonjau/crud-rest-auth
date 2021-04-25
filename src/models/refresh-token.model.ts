@@ -26,6 +26,7 @@ const schema = new Schema({
   replacedByToken: String,
 });
 
+// virtual things are not persisted
 schema.virtual("isExpired").get(function (this: RefreshTokenDoc) {
   return new Date() >= this.expires;
 });
