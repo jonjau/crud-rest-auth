@@ -1,5 +1,6 @@
 import express from "express";
 import cors from "cors";
+import cookieParser from "cookie-parser";
 import userRouter from "./routes/user.routes";
 import todoRouter from "./routes/todo.routes";
 import errorHandler from "./middleware/error-handler";
@@ -11,6 +12,7 @@ createTestUsers();
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(cookieParser());
 app.use(cors({ origin: (_origin, callback) => callback(null, true), credentials: true }));
 
 app.use(userRouter);

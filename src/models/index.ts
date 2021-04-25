@@ -2,7 +2,6 @@ import config from "../../config.json";
 import mongoose from "mongoose";
 import User from "./user.model";
 import RefreshToken from "./refresh-token.model";
-import e from "express";
 
 const connectionOptions = {
   useCreateIndex: true,
